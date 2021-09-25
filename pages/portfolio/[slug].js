@@ -1,11 +1,14 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { getPortfolioItem } from "../../lib/data";
+import { getPortfolioItem, getPortfolioSlugs } from "../../lib/data";
 
-export const getStaticPaths = () => {
+export const getStaticPaths = async () => {
+  const slugsRes = await getPortfolioSlugs();
+  const slugs = slugsRes.portfolios;
+
   return {
-    paths: [],
-    fallback: true,
+    paths: slugs.map((slug) => ({ params: { slug: slug.slug } })),
+    fallback: false,
   };
 };
 
