@@ -1,6 +1,18 @@
 import Head from 'next/head'
+import Link from 'next/link'
+import {getPostsAndPortfolios} from '../lib/data'
 
-export default function Home() {
+export  const getStaticProps = async ( ) => {
+  const data = await getPostsAndPortfolios();
+  return {
+    props:{
+      data
+    }
+  }
+}
+
+export default function Home({data}) {
+  console.log(data)
   return (
     <div>
       <Head>
@@ -8,11 +20,29 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <h1>
-        Welcome to the SMT portfolio
-      </h1>
+      <div>
+        {
+          data?.portfolios?.map(item => (
+            <div key={item.slug}>
+              <Link href={`/portfolio/${item.slug}`}>
+                <a>{item.title}</a>
+              </Link>
+            </div>
+          ))
+        }
+      </div>
 
-     
+      <div className="mt-10">
+        {
+          data?.posts?.map(post => (
+            <div key={post.slug}>
+              <Link href={`/blog/${post.slug}`}>
+                <a>{post.title}</a>
+              </Link>              
+            </div>
+          ))
+        }
+      </div>     
     </div>
   )
 }
