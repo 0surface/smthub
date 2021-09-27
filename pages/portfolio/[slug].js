@@ -1,6 +1,11 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
+import Image from "next/image";
+import { serialize } from "next-mdx-remote/serialize";
+import { MDXRemote } from "next-mdx-remote";
+import he from "he";
 import { getPortfolioItem, getPortfolioSlugs } from "../../lib/data";
+import { Source } from "graphql";
 
 export const getStaticPaths = async () => {
   const slugsRes = await getPortfolioSlugs();
@@ -17,11 +22,12 @@ export const getStaticProps = async ({ params }) => {
   return {
     props: {
       portfolioItem: portfolioItem.portfolios[0],
+      content: await serialize(he.decode(portfolioItem.portfolios[0].content)),
     },
   };
 };
 
-export default function Home({ portfolioItem }) {
+export default function Home({ portfolioItem, content }) {
   const router = useRouter();
   console.log("portfolioItem:", portfolioItem);
 
@@ -38,6 +44,21 @@ export default function Home({ portfolioItem }) {
 
       <div>
         <h1>{portfolioItem.title}</h1>
+        <p>{new Date(portfolioItem.date).toDateString()}</p>
+        <p>{portfolioItem.description}</p>
+        <div>
+          {portfolioItem?.tags.map((tag) => (
+            <span key={tag}>&nbsp;{tag}</span>
+          ))}
+        </div>
+        <Image
+          src={portfolioItem.coverImage.url}
+          width={portfolioItem.coverImage.width}
+          height={portfolioItem.coverImage.height}
+        />
+        <div>
+          <MDXRemote {...content} />
+        </div>
       </div>
     </div>
   );
