@@ -25,6 +25,7 @@ export default function Home({ data }) {
       <Hero />
 
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-0 mt-10">
+        <div className="text-4xl text-gray-900 font-semibold mb-4">Recent Projects</div>
         {data?.portfolios?.map((item) => (
           <div key={item.slug}>
             <Link key={item.slug} href={`/portfolio/${item.slug}`}>
@@ -61,6 +62,7 @@ export default function Home({ data }) {
       </div>
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-0">
         <div className="mt-20">
+          <div className="text-4xl text-gray-900 font-semibold mb-4">Recent Posts</div>
           {data?.posts?.map((post) => (
             <div key={post.slug} className="grid md:grid-cols-4 py-6">
               <div className="mb-2 md:mb-0 md:col-span-1" key={post.slug}>

@@ -41,28 +41,34 @@ export default function Home({ post, content }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div>
-        <h1>{post.title}</h1>
-      </div>
-      <p>{new Date(post.date).toDateString()}</p>
-      <p>{post.description}</p>
-      <div>
-        <p>{post.author.name}</p>
-        <Image
-          src={post.author.image.url}
-          width={post.author.image.width / 5}
-          height={post.author.image.height / 4}
-        />
-      </div>
+      <div className="max-3w-3xlmx-auto px-4 sm:px-6 lg:px-0">
+        <h1 className="text-5xl text-gray-900 font-bold">{post.title}</h1>
+        <div className="flex space-x-3 mt-2">
+          {post?.tags.map((tag) => (
+            <span
+              className="uppercase text-sm tracking-wide m-2 bg-gray-100 px-2 py-1 rounded-lg text-gray-900"
+              key={tag}>
+              &nbsp;{tag}
+            </span>
+          ))}
+        </div>
+        <div className="flex justify-between items-center mb-8">
+          <p className="text-gray-700">{new Date(post.date).toDateString()}</p>
+          <div className="flex items-center ">
+            <p className="mr-4 text-gray-800 text-lg font-semibold">{post.author.name}</p>
+            <Image
+              className="rounded-full"
+              src={post.author.image.url}
+              objectFit="cover"
+              width={75}
+              height={75}
+            />
+          </div>
+        </div>
 
-      <div>
-        {post?.tags.map((tag) => (
-          <span key={tag}>&nbsp;{tag}</span>
-        ))}
-      </div>
-
-      <div>
-        <MDXRemote {...content} />
+        <div className="prose prose-xl max-w-none">
+          <MDXRemote {...content} />
+        </div>
       </div>
     </div>
   );
