@@ -2,6 +2,7 @@ import Head from "next/head";
 import Link from "next/link";
 import Image from "next/image";
 import { getPostsAndPortfolios } from "../lib/data";
+import Hero from "../components/Hero";
 
 export const getStaticProps = async () => {
   const data = await getPostsAndPortfolios();
@@ -20,6 +21,8 @@ export default function Home({ data }) {
         <title>SMT Portfolio</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
+
+      <Hero />
 
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-0">
         {data?.portfolios?.map((item) => (
