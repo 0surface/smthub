@@ -24,7 +24,7 @@ export default function Home({ data }) {
 
       <Hero />
 
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-0">
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-0 mt-10">
         {data?.portfolios?.map((item) => (
           <div key={item.slug}>
             <Link key={item.slug} href={`/portfolio/${item.slug}`}>
@@ -33,7 +33,9 @@ export default function Home({ data }) {
                   <div className="absolute w-full h-full z-10 opacity-80 bg-green-900"></div>
                   <div className="absolute w-full h-full z-20 flex flex-col justify-center items-cente text-center px-4">
                     <h3 className="text-white font-semibold text-2xl">{item.title}</h3>
-                    <p className="text-gray-50 text-lg mt-4 leading-relaxed">{item.description}</p>
+                    <p className="text-gray-50 text-lg mt-4 leading-relaxed hidden md:flex">
+                      {item.description}
+                    </p>
                     <div className="mt-4">
                       {item.tags.map((tag) => (
                         <span
@@ -58,7 +60,7 @@ export default function Home({ data }) {
         ))}
       </div>
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-0">
-        <div className="mt-10">
+        <div className="mt-20">
           {data?.posts?.map((post) => (
             <div key={post.slug} className="grid md:grid-cols-4 py-6">
               <div className="mb-2 md:mb-0 md:col-span-1" key={post.slug}>
