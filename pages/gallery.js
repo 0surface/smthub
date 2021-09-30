@@ -1,20 +1,54 @@
 import { getPhotos } from "../lib/data";
+import { getPlaiceholder } from "plaiceholder";
+import Image from "next/image";
+
+const blurImages = async (photos) => {
+  const images = await Promise.all(
+    photos.map(async (image) => {
+      const { base64, img } = await getPlaiceholder(image.photo.url, { size: 10 });
+      //console.log(base64);
+      return {
+        ...img,
+        base64,
+        id: image.id,
+        description: image.description,
+        date: image.date,
+      };
+    }),
+  );
+  return images;
+};
 
 export const getStaticProps = async () => {
-  const photos = await getPhotos();
-  console.log(photos);
+  const photoResponse = await getPhotos();
+
+  const { photos } = photoResponse;
+  const blurredPhotos = await blurImages(photos);
+
+  console.log("blurredPhotos", blurredPhotos);
 
   return {
+    revalidate: 3600,
     props: {
-      photos,
+      blurredPhotos,
     },
   };
 };
 
-export default function Gallery({ photos }) {
+export default function Gallery({ blurredPhotos }) {
+  console.log(blurredPhotos);
   return (
-    <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-0">
-      <h1>This is the gallery</h1>
+    <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-0 grid grid-cols-2 gap-3">
+      {blurredPhotos.map((photo) => (
+        <Image
+          key={photo.id}
+          src={photo.src}
+          width={photo.width / 3}
+          height={photo.height / 3}
+          placeholder="blur"
+          blurDataURL={photo.base64}
+        />
+      ))}
     </div>
   );
 }
