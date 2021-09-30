@@ -12,7 +12,6 @@ export const getStaticProps = async () => {
 };
 
 export default function BlogPage({ items }) {
-  console.log("Porfoliopage data:", items);
   return (
     <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-0 mt-10">
       {items?.map((item) => (

@@ -29,7 +29,6 @@ export const getStaticProps = async ({ params }) => {
 
 export default function Home({ portfolioItem, content }) {
   const router = useRouter();
-  console.log("portfolioItem:", portfolioItem);
 
   if (router.isFallback) {
     return <div>Loading...</div>;
